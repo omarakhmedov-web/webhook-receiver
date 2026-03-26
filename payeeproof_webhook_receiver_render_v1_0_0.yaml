@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: payeeproof-webhook-receiver
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 -b 0.0.0.0:$PORT payeeproof_webhook_receiver_v1_0_0:app
+    plan: free
+    envVars:
+      - key: DB_PATH
+        value: /tmp/webhook_receiver.db
+      - key: MAX_ITEMS
+        value: 100
+      - key: RECEIVER_VIEW_TOKEN
+        generateValue: true
